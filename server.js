@@ -63,6 +63,36 @@ app.get("/articles/:id", function (req, res) {
         });
 });
 
+app.get('/', function (req, res) {
+    var article = new Article(req.query);
+    article.retrieveAll(res);
+
+});
+
+app.get('/detail', function (req, res) {
+    var article = new Article(req.query);
+    article.retrieveOne(req, res);
+
+
+});
+
+app.get('/submit', function (req, res) {
+    var note = new Note(req.query);
+    console.log('note instance ' + note);
+    note.saveNote(req, res, Article, note);
+
+});
+
+app.get('/noteMODELS', function (req, res) {
+    var article = new Article(req.query);
+    console.log('article instance ' + article);
+    article.viewNotes(req, res, Note, article);
+});
+
+app.listen(PORT, function () {
+    console.log('app listening on port ' + PORT);
+});
+
 app.post("/articles/:id", function (req, res) {
     db.Note.create(req.body)
         .then(function (dbNote) {
